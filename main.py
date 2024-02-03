@@ -13,9 +13,9 @@ import os
 argparser = argparse.ArgumentParser()
 argparser.add_argument("image", help="path to image")
 argparser.add_argument(
-    "-t", "--threshold", default=30, help="threshold for color difference"
+    "-t", "--threshold", default=65, help="threshold for color difference"
 )
-argparser.add_argument("-d", "--depth", default=8, help="max depth of quadtree")
+argparser.add_argument("-d", "--depth", default=100, help="max depth of quadtree")
 argparser.add_argument(
     "-l", "--line_thickness", default=1, help="line thickness of boundary"
 )
@@ -108,9 +108,9 @@ def check_color(image, boundary, thr):
     x1, y1, x2, y2 = boundary
     b, g, r = cv2.split(image[y1:y2, x1:x2])
 
-    std_b = np.std(b)
-    std_g = np.std(g)
-    std_r = np.std(r)
+    std_b = np.var(b)
+    std_g = np.var(g)
+    std_r = np.var(r)
 
     return std_b > thr or std_g > thr or std_r > thr
 
